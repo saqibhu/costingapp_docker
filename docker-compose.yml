@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  db:
+    image: postgres
+    ports:
+    - "5432:5432"
+    environment:
+      - POSTGRES_USER=costingapp_user
+      - POSTGRES_PASSWORD=costingapp_password
+      - POSTGRES_DB=costingapp_api_dev
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    environment:
+      - SQL_ENGINE=django.db.backends.postgresql_psycopg2
+      - SQL_DATABASE=costingapp_api_dev
+      - SQL_USER=costingapp_user
+      - SQL_PASSWORD=costingapp_password
+      - SQL_HOST=db
+      - SQL_PORT=5432
+      - DATABASE=postgres
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+  
+volumes:
+  postgres_data:
