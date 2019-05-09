@@ -9,8 +9,7 @@ __pycache__
 .ipynb*
 
 # Secret environment settings
-.env
-env
+*env*
 
 # Node and Webpack files
 node_modules
